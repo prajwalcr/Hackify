@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const config = require("config");
 const jwt = require("jsonwebtoken");
+const auth = require("../../middleware/auth");
 
 // User Model
 const User = require("../../models/User");
@@ -56,6 +57,21 @@ router.post("/", (req, res) => {
 				);
 			});
 		});
+	});
+});
+
+// @route PUT api/users/:id
+// @desc Update user profile
+// @access Private
+router.put("/:id", auth, (req, res) => {
+	User.findById(req.params.id, (err, user) => {
+		if (err) return res.status(404).json({ msg: "Resource not found" });
+		user.name = req.body.name;
+
+		user
+			.save()
+			.then((user) => res.json(user))
+			.catch((err) => res.status(400).json({ msg: "Project update failed" }));
 	});
 });
 

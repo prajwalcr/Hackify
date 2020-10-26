@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const ProjectSchema = new Schema({
-	name: {
+	title: {
 		type: String,
 		required: true,
 	},
@@ -15,6 +15,10 @@ const ProjectSchema = new Schema({
 	isPublic: {
 		type: Boolean,
 		default: false,
+	},
+	author: {
+		type: Schema.Types.ObjectId,
+		ref: "User", 
 	},
 	register_date: {
 		type: Date,

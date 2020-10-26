@@ -24,6 +24,21 @@ export const getProjects = () => (dispatch) => {
 		);
 };
 
+export const getProject = (id) => (dispatch) => {
+	dispatch(setItemsLoading());
+	axios
+		.get(`/api/projects/${id}`)
+		.then((res) => {
+			dispatch({
+				type: GET_PROJECTS,
+				payload: res.data,
+			});
+		})
+		.catch((err) =>
+			dispatch(returnErrors(err.response.data, err.response.status))
+		);
+}
+
 export const addProject = (project) => (dispatch, getState) => {
 	axios
 		.post("/api/projects", project, tokenConfig(getState))
@@ -53,8 +68,9 @@ export const deleteProject = (id) => (dispatch, getState) => {
 };
 
 export const updateProject = (project) => (dispatch, getState) => {
+	console.log(tokenConfig(getState));
 	axios
-		.put(`/api/projects/${project._id}`, tokenConfig(getState))
+		.put(`/api/projects/${project._id}`, project, tokenConfig(getState))
 		.then((res) => {
 			dispatch({
 				type: UPDATE_PROJECT,
