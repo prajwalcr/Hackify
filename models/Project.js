@@ -10,7 +10,11 @@ const ProjectSchema = new Schema({
 	content: {
 		type: String,
 		required: true,
-		unique: true,
+		//unique: true,
+	},
+	coverPic: {
+		type: String,
+		required: true,
 	},
 	isPublic: {
 		type: Boolean,
@@ -18,7 +22,7 @@ const ProjectSchema = new Schema({
 	},
 	author: {
 		type: Schema.Types.ObjectId,
-		ref: "User", 
+		ref: "User",
 	},
 	register_date: {
 		type: Date,

@@ -18,15 +18,17 @@ let storage = multer.diskStorage({
 	},
 	fileFilter: (req, file, cb) => {
 		const ext = path.extname(file.originalname);
-		if(ext !== '.jpg' && ext !== '.png' && ext !== '.mp4'){
-			return cb(res.status(400).end("only .jpg, .png and .mp4 formats are allowed"), false);
+		if (ext !== ".jpg" && ext !== ".jpeg" && ext !== ".png" && ext !== ".mp4") {
+			return cb(
+				res.status(400).end("only .jpg, .png and .mp4 formats are allowed"),
+				false,
+			);
 		}
 		cb(null, true);
-	}
+	},
 });
 
-const upload = multer({storage: storage}).single("file");
-
+const upload = multer({ storage: storage }).single("file");
 
 // @route GET api/projects
 // @desc Get all projects
@@ -51,9 +53,10 @@ router.get("/:id", (req, res) => {
 // @desc Add a project
 // @access private
 router.post("/", auth, (req, res) => {
-
+	console.log(req.body.coverPic);
 	const newProject = new Project({
 		title: req.body.title,
+		coverPic: req.body.coverPic,
 		content: req.body.content,
 		author: req.body.author,
 		isPublic: req.body.isPublic,
@@ -80,7 +83,7 @@ router.delete("/:id", auth, (req, res) => {
 router.put("/:id", auth, (req, res) => {
 	Project.findByIdAndUpdate(req.params.id, req.body, (err, project) => {
 		if (err) return res.status(400).json({ msg: "Project update failed" });
-		else return res.json(req.body)
+		else return res.json(req.body);
 	});
 });
 
@@ -90,11 +93,15 @@ router.put("/:id", auth, (req, res) => {
 //need to include auth here
 router.post("/uploadfiles", (req, res) => {
 	upload(req, res, (err) => {
-		if(err){
-			return res.json({success: false, err});
+		if (err) {
+			return res.json({ success: false, err });
 		}
-		return res.json({success: true, url: res.req.file.path, fileName: res.req.file.filename});
-	})
+		return res.json({
+			success: true,
+			url: req.file.path,
+			fileName: req.file.filename,
+		});
+	});
 });
 
 module.exports = router;

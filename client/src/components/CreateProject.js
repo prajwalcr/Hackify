@@ -1,125 +1,249 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+import { Alert } from "reactstrap";
 import PropTypes from "prop-types";
 import QuillEditor from "./QuillEditor";
-import {loadUser} from "../actions/authActions";
-import {getProject, addProject, updateProject} from "../actions/projectActions";
-import { Redirect } from 'react-router-dom';
+import { loadUser } from "../actions/authActions";
+import {
+	getProject,
+	addProject,
+	updateProject,
+} from "../actions/projectActions";
+import { clearErrors } from "../actions/errorActions";
+import { Redirect } from "react-router-dom";
+
+import axios from "axios";
 
 class CreateProject extends Component {
+	componentDidMount() {
+		if (this.props.match.params.id) {
+			const projectId = this.props.match.params.id;
+			if (projectId) {
+				this.props.getProject(projectId);
+			}
+		}
+	}
 
-  componentDidMount(){
-    console.log(this.props.isAuthenticated);
-    if(this.props.match.params.id){
-      const projectId = this.props.match.params.id; 
-      if(projectId)
-      {
-        this.props.getProject(projectId);
-        if(this.props.projects){
-          this.setState({
-            content: this.props.projects[0].content,
-            title: this.props.projects[0].title,
-            author: this.props.projects[0].author,
-            isExisting: true,
-          });
-        }
-      }
-    }
-  }
+	constructor(props) {
+		super(props);
+		this.state = {
+			coverPic: "",
+			content: "",
+			files: [],
+			title: "",
+			action: "",
+			err_msg: "",
+			msg: "",
+		};
 
-  constructor(props){
-    super(props);
-    this.state = {
-      content: "",
-      files: [],
-      title: "",
-      action: "",
-    }
-  }
+		this.coverPicRef = React.createRef();
+	}
 
-  myChange = (e) => {
-    this.setState({title: e.target.value});
-  }
+	componentDidUpdate(prevProps) {
+		const { error } = this.props;
+		console.log(error.msg.msg);
+		if (error !== prevProps.error) {
+			if (error.id !== null) {
+				this.setState({ err_msg: error.msg.msg });
+			} else {
+				this.setState({ err_msg: null });
+			}
+		}
 
-  onEditorChange = (content) => {
-    this.setState({content: content});
-    console.log("Content:", content)
-  }
+		if (this.props.projects !== prevProps.projects) {
+			if (this.props.projects[0]) {
+				this.setState({
+					coverPic: this.props.projects[0].coverPic,
+					content: this.props.projects[0].content,
+					title: this.props.projects[0].title,
+					author: this.props.projects[0].author,
+					isExisting: true,
+				});
+			}
+		}
+	}
 
-  onFilesChange = (files) => {
-    this.setState({files: files});
-  }
+	myChange = (e) => {
+		this.setState({ title: e.target.value });
+	};
 
-  myAction = (e) => {
-    this.setState({action: e.target.name});
-  }
+	onEditorChange = (content) => {
+		this.setState({ content: content });
+		console.log("Content:", content);
+	};
 
-  onSubmit = (e) => {
-    e.preventDefault();
+	onFilesChange = (files) => {
+		this.setState({ files: files });
+	};
 
-    let isPublic = false;
-    const {title, content} = this.state;
+	coverImageHandler = () => {
+		this.coverPicRef.current.click();
+	};
 
-    const isExisting = this.props.location.pathname !== "/create/project";
+	onCoverChange = (e) => {
+		if (e.target.files && e.target.files[0]) {
+			const file = e.target.files[0];
+			let formData = new FormData();
+			const config = {
+				header: { "content-type": "multipart/form-data" },
+			};
+			formData.append("file", file);
 
-    if(isExisting){
-      this.props.getProject(this.props.match.params.id);
-      isPublic = this.state.action === "publish" || this.props.projects[0].isPublic;
-    }
+			axios.post("/api/projects/uploadfiles", formData, config).then((res) => {
+				if (res.data.success) {
+					console.log("cover pic updated");
+					this.setState(
+						{ coverPic: "http://localhost:5000/" + res.data.url },
+						() => console.log(this.state.coverPic),
+					);
+				} else {
+					return alert("Failed to upload cover picture!");
+				}
+			});
+		}
+	};
 
-    const _id = this.props.match.params.id || "";
-  
-    const project = {
-      _id: _id,
-      title: title,
-      content: content,
-      author: this.props.user._id,
-      isPublic: isPublic,
-    }
+	myAction = (e) => {
+		this.setState({ action: e.target.name });
+	};
 
-    if(!isExisting){
-      this.props.addProject(project);
-    }
-    else{
-      this.props.updateProject(project);
-    }
-  }
+	onSubmit = (e) => {
+		e.preventDefault();
+		this.props.clearErrors();
+		this.setState({ msg: "" });
 
-  render() {
-    return (
-      <div>
-        {this.props.location.pathname === "/create/project" && this.props.projects[0]? <Redirect to={`/edit/${this.props.projects[0]._id}`} />: null}
-        <form onSubmit={this.onSubmit}>
-          <p>title:</p>
-          <input type="text" name="title" onChange={this.myChange} />
-          <br />
-          <QuillEditor
-            placeholder={"Start Posting Something"}
-            onEditorChange={this.onEditorChange}
-            onFilesChange={this.onFilesChange}
-          />
-          <input type="submit" name="save" value="Save" onClick={this.myAction}/>
-          <input type="submit" name="publish" value="Publish" onClick={this.myAction}/>
-        </form>
-      </div>
-    );
-  }
+		let isPublic = false;
+		const { title, content } = this.state;
+
+		const isExisting = this.props.location.pathname !== "/create/project";
+
+		if (isExisting) {
+			this.props.getProject(this.props.match.params.id);
+			isPublic =
+				this.state.action === "publish" || this.props.projects[0].isPublic;
+		}
+
+		const _id = this.props.match.params.id || "";
+
+		const project = {
+			_id: _id,
+			title: title,
+			coverPic: this.state.coverPic,
+			content: content,
+			author: this.props.user._id,
+			isPublic: isPublic,
+		};
+		if (!isExisting) {
+			this.props.addProject(project);
+		} else {
+			this.props.updateProject(project);
+		}
+
+		if (isExisting) this.setState({ msg: "Project updated successfully" });
+		else this.setState({ msg: "Project created successfully" });
+	};
+
+	render() {
+		const addCoverPic = (
+			<Fragment>
+				<button type='button' onClick={this.coverImageHandler}>
+					Choose File
+				</button>
+			</Fragment>
+		);
+		const editCoverPic = (
+			<Fragment>
+				<button type='button' onClick={this.coverImageHandler}>
+					Edit
+				</button>
+				<button
+					type='button'
+					onClick={() => {
+						this.setState({ coverPic: "" });
+					}}
+				>
+					Remove
+				</button>
+			</Fragment>
+		);
+		return (
+			<div>
+				{this.props.location.pathname === "/create/project" &&
+				this.props.projects[0] ? (
+					<Redirect to={`/edit/${this.props.projects[0]._id}`} />
+				) : null}
+				<form onSubmit={this.onSubmit}>
+					<p>title:</p>
+					<input
+						type='text'
+						name='title'
+						onChange={this.myChange}
+						value={this.state.title}
+					/>
+					<br />
+					<p>Cover Image</p>
+					{/* Might have to modify this condition */}
+					{this.state.coverPic ? editCoverPic : addCoverPic}
+					<input
+						type='file'
+						accept='image/*'
+						onChange={this.onCoverChange}
+						ref={this.coverPicRef}
+						style={{ display: "none" }}
+					/>
+					{/* modify alt later */}
+					<img src={this.state.coverPic} alt='alt'></img>
+					<QuillEditor
+						placeholder={"Start Posting Something"}
+						onEditorChange={this.onEditorChange}
+						onFilesChange={this.onFilesChange}
+					/>
+					{this.state.msg && !this.state.err_msg ? (
+						<Alert color='success'>{this.state.msg}</Alert>
+					) : null}
+					{this.state.err_msg ? (
+						<Alert color='danger'>{this.state.err_msg}</Alert>
+					) : null}
+					<input
+						type='submit'
+						name='save'
+						value='Save'
+						onClick={this.myAction}
+					/>
+					<input
+						type='submit'
+						name='publish'
+						value='Publish'
+						onClick={this.myAction}
+					/>
+				</form>
+			</div>
+		);
+	}
 }
 
 CreateProject.propTypes = {
-  updateProject: PropTypes.func.isRequired,
-  addProject: PropTypes.func.isRequired,
-  getProject: PropTypes.func.isRequired,
-  loadUser: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  projects: PropTypes.array.isRequired,
-  user: PropTypes.object.isRequired,
+	clearErrors: PropTypes.func.isRequired,
+	updateProject: PropTypes.func.isRequired,
+	addProject: PropTypes.func.isRequired,
+	getProject: PropTypes.func.isRequired,
+	loadUser: PropTypes.func.isRequired,
+	isAuthenticated: PropTypes.bool,
+	projects: PropTypes.array.isRequired,
+	user: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
-  projects: state.project.projects,
-  isAuthenticated: state.auth.isAuthenticated,
-  user: state.auth.user,
+	projects: state.project.projects,
+	isAuthenticated: state.auth.isAuthenticated,
+	user: state.auth.user,
+	error: state.error,
 });
 
-export default connect(mapStateToProps, { loadUser, getProject, addProject, updateProject })(CreateProject);
+export default connect(mapStateToProps, {
+	loadUser,
+	getProject,
+	addProject,
+	updateProject,
+	clearErrors,
+})(CreateProject);

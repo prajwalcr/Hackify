@@ -20,7 +20,13 @@ export const getProjects = () => (dispatch) => {
 			});
 		})
 		.catch((err) =>
-			dispatch(returnErrors(err.response.data, err.response.status))
+			dispatch(
+				returnErrors(
+					err.response.data,
+					err.response.status,
+					"PROJECTS_LOAD_FAIL",
+				),
+			),
 		);
 };
 
@@ -35,9 +41,15 @@ export const getProject = (id) => (dispatch) => {
 			});
 		})
 		.catch((err) =>
-			dispatch(returnErrors(err.response.data, err.response.status))
+			dispatch(
+				returnErrors(
+					err.response.data,
+					err.response.status,
+					"PROJECT_LOAD_FAIL",
+				),
+			),
 		);
-}
+};
 
 export const addProject = (project) => (dispatch, getState) => {
 	axios
@@ -49,7 +61,13 @@ export const addProject = (project) => (dispatch, getState) => {
 			});
 		})
 		.catch((err) =>
-			dispatch(returnErrors(err.response.data, err.response.status))
+			dispatch(
+				returnErrors(
+					err.response.data,
+					err.response.status,
+					"PROJECT_ADD_FAIL",
+				),
+			),
 		);
 };
 
@@ -63,23 +81,48 @@ export const deleteProject = (id) => (dispatch, getState) => {
 			});
 		})
 		.catch((err) =>
-			dispatch(returnErrors(err.response.data, err.response.status))
+			dispatch(
+				returnErrors(
+					err.response.data,
+					err.response.status,
+					"PROJECT_DELETE_FAIL",
+				),
+			),
 		);
 };
 
 export const updateProject = (project) => (dispatch, getState) => {
-	console.log(tokenConfig(getState));
-	axios
-		.put(`/api/projects/${project._id}`, project, tokenConfig(getState))
-		.then((res) => {
-			dispatch({
-				type: UPDATE_PROJECT,
-				payload: project,
-			});
-		})
-		.catch((err) =>
-			dispatch(returnErrors(err.response.data, err.response.status))
+	if (
+		project.title === "" ||
+		project.coverPic === "" ||
+		project.content === "<p><br></p>"
+	) {
+		dispatch(
+			returnErrors(
+				{ msg: "Project update failed" },
+				400,
+				"PROJECT_UPDATE_FAIL",
+			),
 		);
+	} else {
+		axios
+			.put(`/api/projects/${project._id}`, project, tokenConfig(getState))
+			.then((res) => {
+				dispatch({
+					type: UPDATE_PROJECT,
+					payload: project,
+				});
+			})
+			.catch((err) =>
+				dispatch(
+					returnErrors(
+						err.response.data,
+						err.response.status,
+						"PROJECT_UPDATE_FAIL",
+					),
+				),
+			);
+	}
 };
 
 export const setItemsLoading = () => {
