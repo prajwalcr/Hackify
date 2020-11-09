@@ -7,7 +7,6 @@ import {
 	Form,
 	FormGroup,
 	FormFeedback,
-	FormText,
 	Label,
 	Input,
 	NavLink,

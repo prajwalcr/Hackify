@@ -1,6 +1,17 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { Alert } from "reactstrap";
+import {
+	Container,
+	Alert,
+	Form,
+	FormGroup,
+	FormFeedback,
+	FormText,
+	Input,
+	Col,
+	Button,
+	Label,
+} from "reactstrap";
 import PropTypes from "prop-types";
 import QuillEditor from "./QuillEditor";
 import { loadUser } from "../actions/authActions";
@@ -34,6 +45,10 @@ class CreateProject extends Component {
 			action: "",
 			err_msg: "",
 			msg: "",
+			alertVisible: false,
+			formErrors: {
+				title: "",
+			},
 		};
 
 		this.coverPicRef = React.createRef();
@@ -64,7 +79,21 @@ class CreateProject extends Component {
 	}
 
 	myChange = (e) => {
-		this.setState({ title: e.target.value });
+		const { name, value } = e.target;
+		const { formErrors } = this.state;
+
+		switch (name) {
+			case "title":
+				if (1 /*add validation*/) {
+					formErrors.title = "valid";
+				} else {
+					formErrors.email = "";
+				}
+				break;
+			default:
+				break;
+		}
+		this.setState({ [name]: value, formErrors: formErrors });
 	};
 
 	onEditorChange = (content) => {
@@ -146,78 +175,109 @@ class CreateProject extends Component {
 	render() {
 		const addCoverPic = (
 			<Fragment>
-				<button type='button' onClick={this.coverImageHandler}>
-					Choose File
-				</button>
+				<Button onClick={this.coverImageHandler}>Choose File</Button>
 			</Fragment>
 		);
 		const editCoverPic = (
 			<Fragment>
-				<button type='button' onClick={this.coverImageHandler}>
-					Edit
-				</button>
-				<button
-					type='button'
+				<Button onClick={this.coverImageHandler}>Edit</Button>
+				<Button
 					onClick={() => {
 						this.setState({ coverPic: "" });
 					}}
 				>
 					Remove
-				</button>
+				</Button>
 			</Fragment>
 		);
 		return (
-			<div>
+			<Container>
 				{this.props.location.pathname === "/create/project" &&
 				this.props.projects[0] ? (
 					<Redirect to={`/edit/${this.props.projects[0]._id}`} />
 				) : null}
-				<form onSubmit={this.onSubmit}>
-					<p>title:</p>
-					<input
-						type='text'
-						name='title'
-						onChange={this.myChange}
-						value={this.state.title}
-					/>
-					<br />
-					<p>Cover Image</p>
-					{/* Might have to modify this condition */}
-					{this.state.coverPic ? editCoverPic : addCoverPic}
-					<input
-						type='file'
-						accept='image/*'
-						onChange={this.onCoverChange}
-						ref={this.coverPicRef}
-						style={{ display: "none" }}
-					/>
-					{/* modify alt later */}
-					<img src={this.state.coverPic} alt='alt'></img>
-					<QuillEditor
-						placeholder={"Start Posting Something"}
-						onEditorChange={this.onEditorChange}
-						onFilesChange={this.onFilesChange}
-					/>
-					{this.state.msg && !this.state.err_msg ? (
-						<Alert color='success'>{this.state.msg}</Alert>
-					) : null}
-					{this.state.err_msg ? (
-						<Alert color='danger'>{this.state.err_msg}</Alert>
-					) : null}
-					<input
-						type='submit'
-						name='save'
-						value='Save'
-						onClick={this.myAction}
-					/>
-					<input
-						type='submit'
-						name='publish'
-						value='Publish'
-						onClick={this.myAction}
-					/>
-				</form>
-			</div>
+				<Form onSubmit={this.onSubmit}>
+					<FormGroup row>
+						<Label for='title' sm={2}>
+							Add a Short Title
+						</Label>
+						<Col sm={10}>
+							<Input
+								type='text'
+								name='title'
+								id='title'
+								placeholder='Add a Title'
+								onChange={this.myChange}
+								value={this.state.title}
+								valid={this.state.formErrors.title === "valid"}
+							/>
+							<FormFeedback valid>That's a good one</FormFeedback>
+							<FormText>Max 50 characters</FormText>
+						</Col>
+					</FormGroup>
+					<FormGroup row>
+						<Label for='Cover Image' sm={2}>
+							Cover Image
+						</Label>
+						<Col sm={{ size: 10 }}>
+							{/* modify alt later */}
+							<img
+								src={this.state.coverPic}
+								alt='Not Found'
+								style={
+									this.state.coverPic === ""
+										? { display: "none" }
+										: { display: "block" }
+								}
+							></img>
+							{/* Might have to modify this condition */}
+							{this.state.coverPic ? editCoverPic : addCoverPic}
+							<input
+								type='file'
+								accept='image/*'
+								onChange={this.onCoverChange}
+								ref={this.coverPicRef}
+								style={{ display: "none" }}
+							/>
+						</Col>
+					</FormGroup>
+					<FormGroup>
+						<QuillEditor
+							placeholder={"Start Posting Something"}
+							onEditorChange={this.onEditorChange}
+							onFilesChange={this.onFilesChange}
+						/>
+					</FormGroup>
+					<FormGroup>
+						{this.state.msg && !this.state.err_msg ? (
+							<Alert color='success'>{this.state.msg}</Alert>
+						) : null}
+						{this.state.err_msg ? (
+							<Alert color='danger'>{this.state.err_msg}</Alert>
+						) : null}
+						<Button
+							size='lg'
+							className='mr-1'
+							type='submit'
+							name='save'
+							value='Save'
+							onClick={this.myAction}
+						>
+							Save
+						</Button>
+						<Button
+							size='lg'
+							className='mr-1'
+							type='submit'
+							name='publish'
+							value='Publish'
+							onClick={this.myAction}
+						>
+							Publish
+						</Button>
+					</FormGroup>
+				</Form>
+			</Container>
 		);
 	}
 }
