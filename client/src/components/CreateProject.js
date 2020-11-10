@@ -11,6 +11,7 @@ import {
 	Col,
 	Button,
 	Label,
+	UncontrolledTooltip,
 } from "reactstrap";
 import PropTypes from "prop-types";
 import QuillEditor from "./QuillEditor";
@@ -180,8 +181,11 @@ class CreateProject extends Component {
 		);
 		const editCoverPic = (
 			<Fragment>
-				<Button onClick={this.coverImageHandler}>Edit</Button>
+				<Button className='mr-1' onClick={this.coverImageHandler}>
+					Edit
+				</Button>
 				<Button
+					className='mr-1'
 					onClick={() => {
 						this.setState({ coverPic: "" });
 					}}
@@ -191,7 +195,7 @@ class CreateProject extends Component {
 			</Fragment>
 		);
 		return (
-			<Container>
+			<Container className='root-container'>
 				{this.props.location.pathname === "/create/project" &&
 				this.props.projects[0] ? (
 					<Redirect to={`/edit/${this.props.projects[0]._id}`} />
@@ -229,6 +233,7 @@ class CreateProject extends Component {
 										? { display: "none" }
 										: { display: "block" }
 								}
+								className='mb-2'
 							></img>
 							{/* Might have to modify this condition */}
 							{this.state.coverPic ? editCoverPic : addCoverPic}
@@ -242,10 +247,19 @@ class CreateProject extends Component {
 						</Col>
 					</FormGroup>
 					<FormGroup>
+						<h1 className='display-4'>
+							Add a Detailed Description of Your Project
+						</h1>
+						<hr />
+						<p className='lead'>
+							Tell us what your project is about. Why you decided to make it?
+							How did you make it? Make it look cool with images and videos.
+						</p>
 						<QuillEditor
 							placeholder={"Start Posting Something"}
 							onEditorChange={this.onEditorChange}
 							onFilesChange={this.onFilesChange}
+							id='editor'
 						/>
 					</FormGroup>
 					<FormGroup>
@@ -262,6 +276,7 @@ class CreateProject extends Component {
 							name='save'
 							value='Save'
 							onClick={this.myAction}
+							id='save'
 						>
 							Save
 						</Button>
@@ -272,9 +287,16 @@ class CreateProject extends Component {
 							name='publish'
 							value='Publish'
 							onClick={this.myAction}
+							id='publish'
 						>
 							Publish
 						</Button>
+						<UncontrolledTooltip placement='bottom' target='publish'>
+							This will make your project publicly visible to everyone
+						</UncontrolledTooltip>
+						<UncontrolledTooltip placement='bottom' target='save'>
+							Save your project and continue later
+						</UncontrolledTooltip>
 					</FormGroup>
 				</Form>
 			</Container>
