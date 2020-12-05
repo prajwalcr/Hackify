@@ -1,4 +1,4 @@
 {
-  "mongoURI": "XXXX Contact me for mongoURI XXXX",
-  "jwtSecret": "XXXX Contact me for jwtSecret XXXX"
+	"mongoURI": "XXXX",
+	"jwtSecret": "XXXX"
 }
