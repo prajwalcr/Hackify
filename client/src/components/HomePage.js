@@ -1,24 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-
+import CardList from "./CardList";
 class HomePage extends Component {
-
-  render() {
-    return (
-      <div>
-          HomePage
-      </div>
-    );
-  }
+	render() {
+		return <CardList />;
+	}
 }
 
 HomePage.propTypes = {
-  isAuthenticated: PropTypes.bool,
+	isAuthenticated: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
+	isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, {  })(HomePage);
+export default connect(mapStateToProps, {})(HomePage);
