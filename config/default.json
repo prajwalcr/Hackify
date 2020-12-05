@@ -1,4 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://prajwal:Playtalon@hackify.h9liq.mongodb.net/Hackify?retryWrites=true&w=majority",
-  "jwtSecret": "H4ck1fy-S3cr37-70k3n@2020"
+  "mongoURI": "XXXX Contact me for mongoURI XXXX",
+  "jwtSecret": "XXXX Contact me for jwtSecret XXXX"
 }
