@@ -36,12 +36,14 @@ class Project extends Component {
 			<div>
 				{this.props.projects[0] ? (
 					<div>
-						<h1 id="project-title">{this.props.projects[0].title}</h1>
+						<h1 id="project-title" style="color:blue;text-align:center;font-size:50px">{this.props.projects[0].title}</h1>
 						<img
+							style="text-align:center"
 							src={this.props.projects[0].coverPic}
 							alt='Failed to load cover pic'
 						></img>
 						<div className='project-text'
+							style="color:black;text-align:center;font-size:20px;font-style:oblique"
 							dangerouslySetInnerHTML={{
 								__html: this.props.projects[0].content,
 							}}

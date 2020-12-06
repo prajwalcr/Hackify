@@ -8,8 +8,10 @@ class CardList extends Component {
 		this.props.getProjects();
 	}
 	render() {
+		
 		console.log(this.props.projects);
 		return (
+			
 			<div className="grid">
 				{this.props.projects.map(function (project, index) {
 					return (

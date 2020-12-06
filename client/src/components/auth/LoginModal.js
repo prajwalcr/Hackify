@@ -129,7 +129,7 @@ class LoginModal extends Component {
 									onChange={this.onChange}
 									invalid={this.state.formErrors.email === "invalid"}
 								/>
-								<FormFeedback invalid>Not a valid email address</FormFeedback>
+								<FormFeedback invalid>Enter a valid email address</FormFeedback>
 							</FormGroup>
 							<FormGroup>
 								<Label for='password'>Password</Label>
@@ -142,7 +142,7 @@ class LoginModal extends Component {
 									onChange={this.onChange}
 									invalid={this.state.formErrors.password === "invalid"}
 								/>
-								<FormFeedback invalid>Not a valid password</FormFeedback>
+								<FormFeedback invalid>Enter a valid password</FormFeedback>
 							</FormGroup>
 							<FormGroup>
 								<Button color='dark' style={{ marginTop: "2rem" }} block>
