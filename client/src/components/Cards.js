@@ -7,9 +7,9 @@ import { Component } from "react";
 export default class CardPrint extends Component {
 	render() {
 		return (
-			<div className='Box'>
-				<Card style={{ width: "18rem" }}>
-					<Card.Img variant='top' src={this.props.image} />
+			
+				<Card style={{ width: "18rem" }} className="Box">
+					<Card.Img variant='top' src={this.props.image} className="image"/>
 					<Card.Body>
 						<Card.Title>{this.props.title}</Card.Title>
 						<Button variant='primary' href={this.props.view}>
@@ -22,7 +22,6 @@ export default class CardPrint extends Component {
 						) : null}
 					</Card.Body>
 				</Card>
-			</div>
 		);
 	}
 }

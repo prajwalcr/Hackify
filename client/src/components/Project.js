@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { getProject } from "../actions/projectActions";
+import './project.css';
 
 class Project extends Component {
 	componentDidMount() {
@@ -16,7 +17,7 @@ class Project extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			err_id: null,
+			success: true,
 		};
 	}
 
@@ -24,24 +25,23 @@ class Project extends Component {
 		const { error } = this.props;
 		if (error !== prevProps.error) {
 			if (error.id !== null) {
-				this.setState({ err_id: error.id });
+				this.setState({ success: error.msg.success });
 			} else {
-				this.setState({ err_id: null });
+				this.setState({ success: null });
 			}
 		}
 	}
 	render() {
-		console.log("hdgfkjlghakjlhjdakls", this.state.err_id);
 		return (
 			<div>
 				{this.props.projects[0] ? (
 					<div>
-						<h1>{this.props.projects[0].title}</h1>
+						<h1 id="project-title">{this.props.projects[0].title}</h1>
 						<img
 							src={this.props.projects[0].coverPic}
 							alt='Failed to load cover pic'
 						></img>
-						<div
+						<div className='project-text'
 							dangerouslySetInnerHTML={{
 								__html: this.props.projects[0].content,
 							}}
@@ -49,7 +49,7 @@ class Project extends Component {
 					</div>
 				) : (
 					<div>
-						{this.state.err_id === "PROJECT_LOAD_FAIL" ? (
+						{!this.state.success ? (
 							<div>
 								<Redirect to='/'></Redirect>
 							</div>

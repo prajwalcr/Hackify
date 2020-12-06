@@ -64,19 +64,21 @@ class LoginModal extends Component {
 	};
 
 	onChange = (e) => {
+		const emailReg= RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+		const passReg= RegExp( /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/);
 		const { name, value } = e.target;
 		const { formErrors } = this.state;
 
 		switch (name) {
 			case "email":
-				if (1 /*add validation*/) {
+				if (!emailReg.test(value)) {
 					formErrors.email = "invalid";
 				} else {
 					formErrors.email = "";
 				}
 				break;
 			case "password":
-				if (1 /*add validation*/) {
+				if (!passReg.test(value)) {
 					formErrors.password = "invalid";
 				} else {
 					formErrors.password = "";
