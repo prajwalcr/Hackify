@@ -68,15 +68,17 @@ class RegisterModal extends Component {
 	};
 
 	onChange = (e) => {
+		const emailReg= RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+		const passReg= RegExp( /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/);
 		const { name, value } = e.target;
 		console.log("value", value, typeof value);
 		const { formErrors } = this.state;
 		switch (name) {
 			case "name":
-				if (1 /*add validation*/) {
+				if (!isNaN(value)) {
 					formErrors.name.isError = "invalid";
 					formErrors.name.msg = "Enter a valid name";
-				} else if (2 /*add validation*/) {
+				} else if (value!=="") {
 					formErrors.name.isError = "valid";
 					formErrors.name.msg = "";
 				} else {
@@ -85,10 +87,10 @@ class RegisterModal extends Component {
 				}
 				break;
 			case "email":
-				if (1 /*add validation*/) {
+				if (!emailReg.test(value)) {
 					formErrors.email.msg = "Enter a valid email";
 					formErrors.email.isError = "invalid";
-				} else if (2 /*add validation*/) {
+				} else if (emailReg.test(value)) {
 					formErrors.email.isError = "valid";
 					formErrors.email.msg = "";
 				} else {
@@ -97,10 +99,10 @@ class RegisterModal extends Component {
 				}
 				break;
 			case "phone":
-				if (1 /*add validation*/) {
+				if (value.length<10 || value.length===11 || value.length>13) {
 					formErrors.phone.msg = "Enter a valid phone number";
 					formErrors.phone.isError = "invalid";
-				} else if (2 /*add validation*/) {
+				} else if (value.length===10 || value.length===12 || value.length===13) {
 					formErrors.phone.isError = "valid";
 					formErrors.phone.msg = "";
 				} else {
@@ -109,10 +111,10 @@ class RegisterModal extends Component {
 				}
 				break;
 			case "password":
-				if (1 /*add validation*/) {
+				if (!passReg.test(value)) {
 					formErrors.password.msg = "Enter a valid password";
 					formErrors.password.isError = "invalid";
-				} else if (2 /*add validation*/) {
+				} else if (passReg.test(value)) {
 					formErrors.password.isError = "valid";
 					formErrors.password.msg = "";
 				} else {
@@ -144,6 +146,7 @@ class RegisterModal extends Component {
 	};
 
 	render() {
+
 		return (
 			<div>
 				<NavLink onClick={this.toggle} href='#'>

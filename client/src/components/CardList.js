@@ -10,7 +10,7 @@ class CardList extends Component {
 	render() {
 		console.log(this.props.projects);
 		return (
-			<div>
+			<div className="grid">
 				{this.props.projects.map(function (project, index) {
 					return (
 						<CardPrint
