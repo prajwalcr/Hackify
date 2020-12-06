@@ -64,8 +64,12 @@ class LoginModal extends Component {
 	};
 
 	onChange = (e) => {
-		const emailReg= RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-		const passReg= RegExp( /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/);
+		const emailReg = RegExp(
+			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+		);
+		const passReg = RegExp(
+			/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,
+		);
 		const { name, value } = e.target;
 		const { formErrors } = this.state;
 
@@ -129,7 +133,7 @@ class LoginModal extends Component {
 									onChange={this.onChange}
 									invalid={this.state.formErrors.email === "invalid"}
 								/>
-								<FormFeedback invalid>Enter a valid email address</FormFeedback>
+								<FormFeedback invalid>Not a valid email address</FormFeedback>
 							</FormGroup>
 							<FormGroup>
 								<Label for='password'>Password</Label>
@@ -142,7 +146,7 @@ class LoginModal extends Component {
 									onChange={this.onChange}
 									invalid={this.state.formErrors.password === "invalid"}
 								/>
-								<FormFeedback invalid>Enter a valid password</FormFeedback>
+								<FormFeedback invalid>Not a valid password</FormFeedback>
 							</FormGroup>
 							<FormGroup>
 								<Button color='dark' style={{ marginTop: "2rem" }} block>

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getProjects } from "../actions/projectActions";
 import CardPrint from "./Cards";
-import './grid.css';
 class CardList extends Component {
 	componentDidMount() {
 		this.props.getProjects();
@@ -15,21 +14,23 @@ class CardList extends Component {
 			});
 		}
 		return (
-			<div className="grid">
+			<div>
 				{projects && this.props.user ? (
-					<div>
+					<div className='grid'>
 						{projects.map((project, index) => {
 							return (
 								<CardPrint
-									key={index}									
-									image={project.coverPic}								
+									key={index}
+									image={project.coverPic}
 									title={project.title}
 									view={`/project/${project._id}`}
 									edit={`/edit/${project._id}`}
 								></CardPrint>
 							);
 						})}
-						{projects.length === 0 ? <div className="dummy">YOU HAVE NO PROJECTS YET :)</div> : null}
+						{projects.length === 0 ? (
+							<div className='dummy'>YOU HAVE NO PROJECTS YET :)</div>
+						) : null}
 					</div>
 				) : (
 					<div>Loading...</div>

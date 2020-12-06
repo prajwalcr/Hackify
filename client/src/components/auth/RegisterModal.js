@@ -68,8 +68,12 @@ class RegisterModal extends Component {
 	};
 
 	onChange = (e) => {
-		const emailReg= RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-		const passReg= RegExp( /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/);
+		const emailReg = RegExp(
+			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+		);
+		const passReg = RegExp(
+			/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,
+		);
 		const { name, value } = e.target;
 		console.log("value", value, typeof value);
 		const { formErrors } = this.state;
@@ -78,7 +82,7 @@ class RegisterModal extends Component {
 				if (!isNaN(value)) {
 					formErrors.name.isError = "invalid";
 					formErrors.name.msg = "Enter a valid name";
-				} else if (value!=="") {
+				} else if (value !== "") {
 					formErrors.name.isError = "valid";
 					formErrors.name.msg = "";
 				} else {
@@ -99,10 +103,14 @@ class RegisterModal extends Component {
 				}
 				break;
 			case "phone":
-				if (value.length<10 || value.length===11 || value.length>13) {
+				if (value.length < 10 || value.length === 11 || value.length > 13) {
 					formErrors.phone.msg = "Enter a valid phone number";
 					formErrors.phone.isError = "invalid";
-				} else if (value.length===10 || value.length===12 || value.length===13) {
+				} else if (
+					value.length === 10 ||
+					value.length === 12 ||
+					value.length === 13
+				) {
 					formErrors.phone.isError = "valid";
 					formErrors.phone.msg = "";
 				} else {
@@ -132,6 +140,19 @@ class RegisterModal extends Component {
 		e.preventDefault();
 
 		const { name, email, phone, password } = this.state;
+		var errMsg = "";
+		if (this.state.formErrors.name.isError === "invalid") {
+			errMsg = "Enter a valid name";
+		}
+		if (this.state.formErrors.email.isError === "invalid") {
+			errMsg = "Enter a valid email";
+		}
+		if (this.state.formErrors.phone.isError === "invalid") {
+			errMsg = "Enter a valid phone number";
+		}
+		if (this.state.formErrors.password.isError === "invalid") {
+			errMsg = "Enter a valid password";
+		}
 
 		// Create user object
 		const newUser = {
@@ -139,6 +160,7 @@ class RegisterModal extends Component {
 			email,
 			phone,
 			password,
+			errMsg,
 		};
 
 		// Attempt to register
@@ -146,7 +168,6 @@ class RegisterModal extends Component {
 	};
 
 	render() {
-
 		return (
 			<div>
 				<NavLink onClick={this.toggle} href='#'>

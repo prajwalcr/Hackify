@@ -8,12 +8,16 @@ class CardList extends Component {
 		this.props.getProjects();
 	}
 	render() {
-		
+		var projects = this.props.projects;
+		if (projects) {
+			projects = projects.filter((project) => {
+				return project.isPublic === true;
+			});
+		}
 		console.log(this.props.projects);
 		return (
-			
-			<div className="grid">
-				{this.props.projects.map(function (project, index) {
+			<div className='grid'>
+				{projects.map(function (project, index) {
 					return (
 						<CardPrint
 							key={index}

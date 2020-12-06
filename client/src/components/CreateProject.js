@@ -85,10 +85,10 @@ class CreateProject extends Component {
 
 		switch (name) {
 			case "title":
-				if (1 /*add validation*/) {
+				if (value !== "") {
 					formErrors.title = "valid";
 				} else {
-					formErrors.email = "";
+					formErrors.title = "";
 				}
 				break;
 			default:
@@ -216,7 +216,6 @@ class CreateProject extends Component {
 								valid={this.state.formErrors.title === "valid"}
 							/>
 							<FormFeedback valid>That's a good one</FormFeedback>
-							<FormText>Max 50 characters</FormText>
 						</Col>
 					</FormGroup>
 					<FormGroup row>
