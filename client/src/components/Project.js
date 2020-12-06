@@ -16,7 +16,7 @@ class Project extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			success: true,
+			err_id: null,
 		};
 	}
 
@@ -24,13 +24,14 @@ class Project extends Component {
 		const { error } = this.props;
 		if (error !== prevProps.error) {
 			if (error.id !== null) {
-				this.setState({ success: error.msg.success });
+				this.setState({ err_id: error.id });
 			} else {
-				this.setState({ success: null });
+				this.setState({ err_id: null });
 			}
 		}
 	}
 	render() {
+		console.log("hdgfkjlghakjlhjdakls", this.state.err_id);
 		return (
 			<div>
 				{this.props.projects[0] ? (
@@ -48,7 +49,7 @@ class Project extends Component {
 					</div>
 				) : (
 					<div>
-						{!this.state.success ? (
+						{this.state.err_id === "PROJECT_LOAD_FAIL" ? (
 							<div>
 								<Redirect to='/'></Redirect>
 							</div>
