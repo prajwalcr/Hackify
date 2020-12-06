@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import { getProjects } from "../actions/projectActions";
 import CardPrint from "./Cards";
 
@@ -16,8 +15,9 @@ class CardList extends Component {
 					return (
 						<CardPrint
 							key={index}
-							image={project.image}
+							image={project.coverPic}
 							title={project.title}
+							view={`/project/${project._id}`}
 						></CardPrint>
 					);
 				})}

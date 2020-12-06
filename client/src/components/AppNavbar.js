@@ -47,6 +47,9 @@ class AppNavbar extends Component {
 					<NavLink href={myProjectsPath}> My Projects </NavLink>
 				</NavItem>
 				<NavItem>
+					<NavLink href='/profile'> Profile </NavLink>
+				</NavItem>
+				<NavItem>
 					<Logout />
 				</NavItem>
 			</Fragment>

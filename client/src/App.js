@@ -3,29 +3,48 @@ import { Route, Switch } from "react-router-dom";
 import AppNavbar from "./components/AppNavbar";
 import HomePage from "./components/HomePage";
 import CreateProject from "./components/CreateProject";
+import Profile from "./components/Profile";
+import Project from "./components/Project";
 import PrivateRoute from "./components/PrivateRoute";
-import {loadUser} from "./actions/authActions";
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import store from './store';
+import { loadUser } from "./actions/authActions";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import store from "./store";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 class App extends Component {
-	componentDidMount(){
+	componentDidMount() {
 		store.dispatch(loadUser());
 	}
 	render() {
 		return (
-			<div className="App">
+			<div className='App'>
 				<AppNavbar />
-				<div  >
+				<div>
 					<Switch>
-						<PrivateRoute exact path="/create/project" component={CreateProject} test="hjkh"/>
-						<PrivateRoute exact path="/edit/:id" component={CreateProject} test="hjkh"/>
-						<PrivateRoute exact path="/:name/projects" component={HomePage}/>
-						<Route path="/" component={HomePage} />
+						<PrivateRoute
+							exact
+							path='/create/project'
+							component={CreateProject}
+							test='hjkh'
+						/>
+						<PrivateRoute
+							exact
+							path='/edit/:id'
+							component={CreateProject}
+							test='hjkh'
+						/>
+						<PrivateRoute
+							exact
+							path='/profile'
+							component={Profile}
+							test='hjkh'
+						/>
+						<Route path='/project/:id' component={Project} />
+						<PrivateRoute exact path='/:name/projects' component={HomePage} />
+						<Route path='/' component={HomePage} />
 					</Switch>
 				</div>
 			</div>
@@ -35,6 +54,6 @@ class App extends Component {
 
 App.propTypes = {
 	loadUser: PropTypes.func.isRequired,
-  };
-  
-  export default connect(null, { loadUser })(App);
+};
+
+export default connect(null, { loadUser })(App);

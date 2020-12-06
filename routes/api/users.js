@@ -12,10 +12,10 @@ const User = require("../../models/User");
 // @desc Register new user
 // @access Public
 router.post("/", (req, res) => {
-	const { name, email, password } = req.body;
+	const { name, email, phone, password } = req.body;
 
 	// Validation
-	if (!name || !email || !password) {
+	if (!name || !email || !phone || !password) {
 		return res.status(400).json({ msg: "Please enter all the fields" });
 	}
 	// Further work ...
@@ -30,6 +30,7 @@ router.post("/", (req, res) => {
 	const newUser = new User({
 		name,
 		email,
+		phone,
 		password,
 	});
 
@@ -53,7 +54,7 @@ router.post("/", (req, res) => {
 								email: user.email,
 							},
 						});
-					}
+					},
 				);
 			});
 		});

@@ -23,11 +23,13 @@ class RegisterModal extends Component {
 		modal: false,
 		name: "",
 		email: "",
+		phone: "",
 		password: "",
 		msg: null,
 		formErrors: {
 			name: { isError: "", msg: "" },
 			email: { isError: "", msg: "" },
+			phone: { isError: "", msg: "" },
 			password: { isError: "", msg: "" },
 		},
 	};
@@ -67,6 +69,7 @@ class RegisterModal extends Component {
 
 	onChange = (e) => {
 		const { name, value } = e.target;
+		console.log("value", value, typeof value);
 		const { formErrors } = this.state;
 		switch (name) {
 			case "name":
@@ -93,6 +96,18 @@ class RegisterModal extends Component {
 					formErrors.email.msg = "";
 				}
 				break;
+			case "phone":
+				if (1 /*add validation*/) {
+					formErrors.phone.msg = "Enter a valid phone number";
+					formErrors.phone.isError = "invalid";
+				} else if (2 /*add validation*/) {
+					formErrors.phone.isError = "valid";
+					formErrors.phone.msg = "";
+				} else {
+					formErrors.phone.isError = "";
+					formErrors.phone.msg = "";
+				}
+				break;
 			case "password":
 				if (1 /*add validation*/) {
 					formErrors.password.msg = "Enter a valid password";
@@ -114,12 +129,13 @@ class RegisterModal extends Component {
 	onSubmit = (e) => {
 		e.preventDefault();
 
-		const { name, email, password } = this.state;
+		const { name, email, phone, password } = this.state;
 
 		// Create user object
 		const newUser = {
 			name,
 			email,
+			phone,
 			password,
 		};
 
@@ -173,6 +189,22 @@ class RegisterModal extends Component {
 								/>
 								<FormFeedback invalid>
 									{this.state.formErrors.email.msg}
+								</FormFeedback>
+							</FormGroup>
+							<FormGroup>
+								<Label for='phone'>Phone</Label>
+								<Input
+									type='number'
+									name='phone'
+									id='phone'
+									placeholder='Phone'
+									className='mb-0'
+									onChange={this.onChange}
+									invalid={this.state.formErrors.phone.isError === "invalid"}
+									valid={this.state.formErrors.phone.isError === "valid"}
+								/>
+								<FormFeedback invalid>
+									{this.state.formErrors.phone.msg}
 								</FormFeedback>
 							</FormGroup>
 							<FormGroup>
