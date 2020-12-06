@@ -15,7 +15,7 @@ class CardList extends Component {
 			});
 		}
 		return (
-			<div>
+			<div className="grid">
 				{projects && this.props.user ? (
 					<div>
 						{projects.map((project, index) => {
