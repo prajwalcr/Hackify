@@ -29,6 +29,7 @@ class CardList extends Component {
 								></CardPrint>
 							);
 						})}
+						{projects.length === 0 ? <div>DUMMY MESSAGE</div> : null}
 					</div>
 				) : (
 					<div>Loading...</div>
