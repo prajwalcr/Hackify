@@ -73,10 +73,10 @@ class RegisterModal extends Component {
 		const { formErrors } = this.state;
 		switch (name) {
 			case "name":
-				if (1 /*add validation*/) {
+				if (!isNaN(value) && value !== "") {
 					formErrors.name.isError = "invalid";
 					formErrors.name.msg = "Enter a valid name";
-				} else if (2 /*add validation*/) {
+				} else if (value !== "") {
 					formErrors.name.isError = "valid";
 					formErrors.name.msg = "";
 				} else {
@@ -130,13 +130,26 @@ class RegisterModal extends Component {
 		e.preventDefault();
 
 		const { name, email, phone, password } = this.state;
-
+		var errMsg = "";
+		if (this.state.formErrors.name.isError === "invalid") {
+			errMsg = "Enter a valid name";
+		}
+		if (this.state.formErrors.email.isError === "invalid") {
+			errMsg = "Enter a valid email";
+		}
+		if (this.state.formErrors.phone.isError === "invalid") {
+			errMsg = "Enter a valid phone number";
+		}
+		if (this.state.formErrors.password.isError === "invalid") {
+			errMsg = "Enter a valid password";
+		}
 		// Create user object
 		const newUser = {
 			name,
 			email,
 			phone,
 			password,
+			errMsg,
 		};
 
 		// Attempt to register

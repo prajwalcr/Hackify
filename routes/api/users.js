@@ -12,13 +12,16 @@ const User = require("../../models/User");
 // @desc Register new user
 // @access Public
 router.post("/", (req, res) => {
-	const { name, email, phone, password } = req.body;
+	const { name, email, phone, password, errMsg } = req.body;
 
 	// Validation
 	if (!name || !email || !phone || !password) {
 		return res.status(400).json({ msg: "Please enter all the fields" });
 	}
 	// Further work ...
+	if (errMsg) {
+		return res.status(400).json({ msg: errMsg });
+	}
 
 	// Checking for existing users
 	User.findOne({ email: email }).then((user) => {
