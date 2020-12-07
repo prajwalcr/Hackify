@@ -33,15 +33,10 @@ class Project extends Component {
 	}
 	render() {
 		return (
-			<div>
+			<div className='general'>
 				{this.props.projects[0] ? (
 					<div>
-						<h1
-							id='project-title'
-							style={{ fontSize: 40, textAlign: "center" }}
-						>
-							{this.props.projects[0].title}
-						</h1>
+						<h1 className='project-title'>{this.props.projects[0].title}</h1>
 						<center>
 							<img
 								id='foo'
@@ -56,11 +51,6 @@ class Project extends Component {
 						</center>
 						<div
 							className='project-text'
-							style={{
-								fontStyle: "oblique",
-								fontSize: 18,
-								textAlign: "center",
-							}}
 							dangerouslySetInnerHTML={{
 								__html: this.props.projects[0].content,
 							}}
