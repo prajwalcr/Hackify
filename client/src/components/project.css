@@ -1,12 +1,19 @@
-.h1{
+.project-title{
     text-align: center;
-    font-size: 50px;
-    color: brown;
+    font-size: 10;
+    color: rgb(92, 6, 6);
+    font-family: fantasy;
+}
+.general{
+    border: steelblue;
+    border-radius: 30px 30px 30px 30px;
+    background-color: rgba(241, 188, 127, 0.3);
+    border-style: groove;
+    border-width: 5px;
 }
 
 .project-text{
-    text-align: left;
-    font-size: 20px;
-    font-style:oblique;
-    color:black;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+    padding:80px;
 }
