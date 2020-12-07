@@ -6,7 +6,6 @@ import {
 	Form,
 	FormGroup,
 	FormFeedback,
-	FormText,
 	Input,
 	Col,
 	Button,
@@ -230,7 +229,7 @@ class CreateProject extends Component {
 						<Col sm={{ size: 10 }}>
 							{/* modify alt later */}
 							<img
-								className="foo"
+								className='foo mb-2'
 								src={this.state.coverPic}
 								alt='Not Found'
 								style={
@@ -238,7 +237,6 @@ class CreateProject extends Component {
 										? { display: "none" }
 										: { display: "block" }
 								}
-								className='mb-2'
 							></img>
 							{/* Might have to modify this condition */}
 							{this.state.coverPic ? editCoverPic : addCoverPic}
