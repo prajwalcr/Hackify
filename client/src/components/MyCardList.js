@@ -14,20 +14,18 @@ class CardList extends Component {
 			});
 		}
 		return (
-			<div>
+			<div style={{align:"center"}}>
 				{projects && this.props.user ? (
 					<div className='grid'>
 						{projects.map((project, index) => {
 							return (
 								<CardPrint
 									key={index}
-									image={
-										project.coverPic ||
-										"http://localhost:5000/uploads\\default.jfif"
-									}
+									image={project.coverPic}
 									title={project.title}
 									view={`/project/${project._id}`}
 									edit={`/edit/${project._id}`}
+									
 								></CardPrint>
 							);
 						})}

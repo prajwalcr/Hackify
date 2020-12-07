@@ -8,11 +8,11 @@ export default class CardPrint extends Component {
 	render() {
 		return (
 			
-				<Card style={{ width: "18rem", margin:"10px" }} className="Box">
-					<Card.Img variant='top' src={this.props.image} className="image" onError={this.src="./favicon.ico" }/>
+				<Card style={{ width: "18rem", marginRight:'5px', marginBottom:"15px", align:"center"}} className="Box">
+					<Card.Img variant='top' src={this.props.image} className="image"/>
 					<Card.Body>
 						<Card.Title>{this.props.title}</Card.Title>
-						<Button variant='primary' href={this.props.view}>
+						<Button variant='primary' href={this.props.view} style={{marginRight:"5px"}}>
 							Open Project
 						</Button>
 						{this.props.edit ? (
