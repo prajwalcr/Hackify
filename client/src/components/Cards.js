@@ -8,7 +8,7 @@ export default class CardPrint extends Component {
 	render() {
 		return (
 			
-				<Card style={{ width: "18rem" }} className="Box">
+				<Card style={{ width: "18rem", margin:"10px" }} className="Box">
 					<Card.Img variant='top' src={this.props.image} className="image" onError={this.src="./favicon.ico" }/>
 					<Card.Body>
 						<Card.Title>{this.props.title}</Card.Title>
