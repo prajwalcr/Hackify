@@ -143,6 +143,11 @@ class CreateProject extends Component {
 		this.setState({ msg: "" });
 
 		let isPublic = false;
+		if (this.state.action === "save") {
+			isPublic = false;
+		} else if (this.state.action === "publish") {
+			isPublic = true;
+		}
 		const { title, content } = this.state;
 
 		const isExisting = this.props.location.pathname !== "/create/project";
