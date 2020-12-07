@@ -21,7 +21,10 @@ class CardList extends Component {
 					return (
 						<CardPrint
 							key={index}
-							image={project.coverPic}
+							image={
+								project.coverPic ||
+								"http://localhost:5000/uploads\\default.jfif"
+							}
 							title={project.title}
 							view={`/project/${project._id}`}
 						></CardPrint>

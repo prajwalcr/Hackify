@@ -250,8 +250,8 @@ class RegisterModal extends Component {
 									{this.state.formErrors.password.msg}
 								</FormFeedback>
 								<FormText>
-									6 characters or more. Must have atleast 1 Capital letter,
-									Special character and Number
+									8 characters or more. Must have atleast 1 Capital letter,
+									Small letter, Special character and Number
 								</FormText>
 							</FormGroup>
 							<FormGroup>
