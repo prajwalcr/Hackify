@@ -18,7 +18,8 @@
 }
 
 .foo {
-	background-image: url("./favicon.ico");
+	max-height: 150px;
+	max-width: 150px;
 }
 
 .dummy {
