@@ -230,6 +230,7 @@ class CreateProject extends Component {
 						<Col sm={{ size: 10 }}>
 							{/* modify alt later */}
 							<img
+								className="foo"
 								src={this.state.coverPic}
 								alt='Not Found'
 								style={
