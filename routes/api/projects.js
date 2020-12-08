@@ -6,7 +6,7 @@ const auth = require("../../middleware/auth");
 // Project Model
 const Project = require("../../models/Project");
 
-// Muter Storage Config
+// Multer Storage Config
 const multer = require("multer");
 
 let storage = multer.diskStorage({
