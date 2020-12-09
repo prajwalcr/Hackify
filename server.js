@@ -6,7 +6,7 @@ const path = require("path");
 const app = express();
 
 // Bodyparser Middleware
-app.use(express.json());
+app.use(express.json({ limit: "100mb" }));
 
 // Get mongoURI
 const db = config.get("mongoURI");
