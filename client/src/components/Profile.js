@@ -23,6 +23,12 @@ class Profile extends Component {
 		});
 	}
 	render() {
+		var projects = this.props.projects;
+		if (projects && this.props.user) {
+			projects = projects.filter((project) => {
+				return project.author === this.props.user._id;
+			});
+		}
 		return (
 			<div className='Card' style={{ width: "100%" }}>
 				<header className='header'>
@@ -32,7 +38,7 @@ class Profile extends Component {
 							<div className='location'></div>
 							<div className='stats'>
 								<div className='col-4'>
-									<h4>{this.props.projects.length}</h4>
+									<h4>{projects.length}</h4>
 									<p>Projects</p>
 								</div>
 								<div className='col-4'>
