@@ -96,7 +96,7 @@ router.put("/:id", auth, (req, res) => {
 // @route POST api/projects/uploadfiles
 // @desc Upload a file
 // @access private
-//need to include auth here
+// we need to include auth here
 router.post("/uploadfiles", (req, res) => {
 	upload(req, res, (err) => {
 		if (err) {
