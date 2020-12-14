@@ -30,7 +30,7 @@ app.use("/api/projects", require("./routes/api/projects"));
 app.use("/uploads", express.static("uploads"));
 
 // Serve static assets if in production
-if (process.env.NODE_ENV === "production") {
+if (true) {
 	// Set static folder
 	app.use(express.static("client/build"));
 	app.get("*", (req, res) => {
